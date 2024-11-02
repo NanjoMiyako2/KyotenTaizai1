@@ -1,0 +1,613 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="initial-scale=1.0, user-scalable=yes">
+<title>GoogleMapAPIテスト</title>
+</head>
+<body>
+<div class="adbox1">
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+<div class="box1">
+GoogleAPIキー <input type="text" name="GoogleApiKeyTextBox" id="GoogleApiKey1">
+<button type="button" name="SetGoogleApiKey" value="SetGoogleApiKey" onclick="SetGoogleApiKey()" style="margin-left:10px; margin-top:10px;">GoogleAPIキーセット</button>
+</div>
+
+
+<div class="box5" id="map" style="margin-top:10px; width:400px; height:350px;">
+</div>
+
+<div class="js-tabs">
+<hr>
+*自動セーブは行いません<br>
+  <ul id="tab_menu1" class="tab_menu">
+    <br>
+    <li><a class="Tablink" href="#pageAdvanceOneStep">ステップ実行</a></li>
+    <br>
+    <li><a class="Tablink" href="#pageKyokaWithCoins">修練所</a></li>
+	<br>
+    <li><a class="Tablink" href="#pageStatusList">ステータス一覧</a></li>
+    <br>
+    <li><a class="Tablink" href="#pageAddKyoten">拠点追加</a></li>
+    <br>
+    <li><a class="Tablink" href="#pageDeleteKyoten">拠点削除</a></li>
+    <br>
+    <li><a class="Tablink" href="#pageUpgradeStatus">ステータス強化</a></li>
+    <br>
+    <li><a class="Tablink" href="#pageYobiSuzuSetting">呼び鈴設定</a></li>
+    <br>
+    <li><a class="Tablink" href="#pageYobiSuzuKyoka">呼び鈴強化</a></li>
+    <br>
+    <li><a class="Tablink" href="#pageTokimodoshiSetting">時戻しの砂漠設定</a></li>
+    <br>
+    <li><a class="Tablink" href="#pageSaiseiSetting">再生の森設定</a></li>
+    <br>
+    <li><a class="Tablink" href="#pageSaveAndLoadGameData">ゲームデータセーブ・ロード</a></li>
+    <br>
+    <li><a class="Tablink" href="#pageEnemyLevelSetting">敵レベル設定</a></li>
+    <br>
+    <li><a class="Tablink" href="#pageKyusokuPercentageSetting">休息確率設定</a></li>
+    <br>
+    <li><a class="Tablink" href="#pageWinEnemyCount">倒した敵の数</a></li>
+    <br>
+    <li><a class="Tablink" href="#pageTodaySuccess">今日の進捗</a></li>
+    <br>
+  </ul>
+<hr>
+  <div id="tab_content1" class="tab_content">
+	<!-- ステータス一覧タブ -->
+	<div id="pageStatusList" class="TabPage">
+	<button type="button" id="pageStatusListTabOutputScnShotButton" onclick="DrawScnShotOfStsList()">
+		ステータスリストのスクリーンショットを出力
+	</button>
+	<br>
+	ステータス一覧<br>
+	<hr>
+	赤の力:<span id="StsListRedSts"></span><br>
+	青の力:<span id="StsListBlueSts"></span><br>
+	黄の力:<span id="StsListYellowSts"></span><br>
+	緑の力:<span id="StsListGreenSts"></span><br>
+	紫の力:<span id="StsListPurpleSts"></span><br>
+	白の力:<span id="StsListWhiteSts"></span><br>
+	白金の力:<span id="StsListWhiteGoldSts"></span><br>
+	白銀の力:<span id="StsListWhiteSilverSts"></span><br>
+	白銅の力:<span id="StsListWhiteCopperSts"></span><br>
+	黒の力:<span id="StsListBlackSts"></span><br>
+	黒金の力:<span id="StsListBlackGoldSts"></span><br>
+	黒銀の力:<span id="StsListBlackSilverSts"></span><br>
+	黒銅の力:<span id="StsListBlackCopperSts"></span><br>
+	
+	<br>
+	<br>
+	
+	赤の経験値:<span id = "StsListRedStsExp"></span><br>
+	青の経験値:<span id = "StsListBlueStsExp"></span><br>
+	黄の経験値:<span id = "StsListYellowStsExp"></span><br>
+	緑の経験値:<span id = "StsListGreenStsExp"></span><br>
+	紫の経験値:<span id = "StsListPurpleStsExp"></span><br>
+	白の経験値:<span id = "StsListWhiteStsExp"></span><br>
+	白金の経験値:<span id = "StsListWhiteGoldStsExp"></span><br>
+	白銀の経験値:<span id = "StsListWhiteSilverStsExp"></span><br>
+	白銅の経験値:<span id = "StsListWhiteCopperStsExp"></span><br>
+	黒の経験値:<span id = "StsListBlackStsExp"></span><br>
+	黒金の経験値:<span id = "StsListBlackGoldStsExp"></span><br>
+	黒銀の経験値:<span id = "StsListBlackSilverStsExp"></span><br>
+	黒銅の経験値:<span id = "StsListBlackCopperStsExp"></span><br>
+	
+	<br>
+	<br>
+	コイン:<span id="StsListCoin"></span><br>
+	時の砂:<span id="StsListTimeSand"></span><br>
+	
+	
+	<br>
+	<br>
+	赤呼鈴の耐久力:<span id="RedYobiSuzuColorPowerSts"></span><br>
+	青呼鈴の耐久力:<span id="BlueYobiSuzuColorPowerSts"></span><br>
+	黄呼鈴の耐久力:<span id="YellowYobiSuzuColorPowerSts"></span><br>
+	緑呼鈴の耐久力:<span id="GreenYobiSuzuColorPowerSts"></span><br>
+	紫呼鈴の耐久力:<span id="PurpleYobiSuzuColorPowerSts"></span><br>
+	白呼鈴の耐久力:<span id="WhiteYobiSuzuColorPowerSts"></span><br>
+	白金呼鈴の耐久力:<span id="WhiteGoldYobiSuzuColorPowerSts"></span><br>
+	白銀呼鈴の耐久力:<span id="WhiteSilverYobiSuzuColorPowerSts"></span><br>
+	白銅呼鈴の耐久力:<span id="WhiteCopperYobiSuzuColorPowerSts"></span><br>
+	黒呼鈴の耐久力:<span id="BlackYobiSuzuColorPowerSts"></span><br>
+	黒金呼鈴の耐久力:<span id="BlackGoldYobiSuzuColorPowerSts"></span><br>
+	黒銀呼鈴の耐久力:<span id="BlackSilverYobiSuzuColorPowerSts"></span><br>
+	黒銅呼鈴の耐久力:<span id="BlackCopperYobiSuzuColorPowerSts"></span><br>
+		
+		
+	<br>
+	<br>
+	赤追鈴の耐久力:<span id="RedOiSuzuColorPowerSts"></span><br>
+	青追鈴の耐久力:<span id="BlueOiSuzuColorPowerSts"></span><br>
+	黄追鈴の耐久力:<span id="YellowOiSuzuColorPowerSts"></span><br>
+	緑追鈴の耐久力:<span id="GreenOiSuzuColorPowerSts"></span><br>
+	紫追鈴の耐久力:<span id="PurpleOiSuzuColorPowerSts"></span><br>
+	白追鈴の耐久力:<span id="WhiteOiSuzuColorPowerSts"></span><br>
+	白金追鈴の耐久力:<span id="WhiteGoldOiSuzuColorPowerSts"></span><br>
+	白銀追鈴の耐久力:<span id="WhiteSilverOiSuzuColorPowerSts"></span><br>
+	白銅追鈴の耐久力:<span id="WhiteCopperOiSuzuColorPowerSts"></span><br>
+	黒追鈴の耐久力:<span id="BlackOiSuzuColorPowerSts"></span><br>
+	黒金追鈴の耐久力:<span id="BlackGoldOiSuzuColorPowerSts"></span><br>
+	黒銀追鈴の耐久力:<span id="BlackSilverOiSuzuColorPowerSts"></span><br>
+	黒銅追鈴の耐久力:<span id="BlackCopperOiSuzuColorPowerSts"></span><br>
+	<hr>
+	<br>
+	<br>    
+    </div>
+    
+    <!-- 拠点追加タブ -->
+    <div id="pageAddKyoten" class="TabPage">
+    拠点追加<br>
+    追加する拠点タイプ:
+    <select id="AddKyotenTab_KyotenType">
+		<option value="0">赤</option>
+		<option value="1">青</option>
+		<option value="2">黄</option>
+		<option value="3">緑</option>
+		<option value="4">紫</option>
+		<option value="5">白</option>
+		<option value="6">白金</option>
+		<option value="7">白銀</option>
+		<option value="8">白銅</option>
+		<option value="9">黒</option>
+		<option value="10">黒金</option>
+		<option value="11">黒銀</option>
+		<option value="12">黒銅</option>
+		<option value="13">虹</option>
+		<option value="14">時戻りの砂漠</option>
+		<option value="15">再生の森</option>
+		<option value="16">黄金の泉</option>
+	</select>
+    <br>
+    <button type="button" id="pageAddKyoten_AddKyotenButton" onclick="AddKyoten()">
+		現在のクリック位置に拠点を追加
+	</button>
+    <button type="button" id="pageAddKyoten_AddKyotenMyLatLngButton" onclick="AddKyoten_MyLatLng()">
+		現在地に拠点を追加
+	</button>
+    </div>
+    
+    <!-- 拠点削除タブ -->
+    <div id="pageDeleteKyoten" class="TabPage">
+    拠点削除<br>
+    <button type="button" id="pageDeleteKyoten_DeleteKyotenButton" onclick="DeleteKyoten()">
+		現在選択中の拠点を削除
+	</button>
+    </div>
+    
+    
+    <!-- ステータス強化タブ -->
+    <div id="pageUpgradeStatus" class="TabPage">
+    ステータス強化<br>
+    <button type="button" id="pageUpgradeStatus_UpgradeStatusButton" onclick="UpgradeStatus()">
+		現在の経験値からステータス強化
+	</button>
+    </div>
+    
+    <!-- 呼び鈴設定 -->
+    <div id="pageYobiSuzuSetting" class="TabPage">
+	    持ち込み呼び鈴<br>
+	    <br>
+
+		赤鈴
+	    <select id="YobiSuzuSetting_RedSuzu">
+			<option value="0">持ち込む</option>
+			<option value="1">持ち込まない</option>
+		</select>
+
+	<br>
+
+		青鈴:
+		<select id="YobiSuzuSetting_BlueSuzu">
+			<option value="0">持ち込む</option>
+			<option value="1">持ち込まない</option>
+		</select>
+
+	<br>
+
+		黄鈴:
+		<select id="YobiSuzuSetting_YellowSuzu">
+			<option value="0">持ち込む</option>
+			<option value="1">持ち込まない</option>
+		</select>
+		
+	<br>
+
+		緑鈴:
+		<select id="YobiSuzuSetting_GreenSuzu">
+			<option value="0">持ち込む</option>
+			<option value="1">持ち込まない</option>
+		</select>
+
+	<br>
+
+		紫鈴:
+		<select id="YobiSuzuSetting_PurpleSuzu">
+			<option value="0">持ち込む</option>
+			<option value="1">持ち込まない</option>
+		</select>
+		
+	<br>
+
+		白鈴:
+		<select id="YobiSuzuSetting_WhiteSuzu">
+			<option value="0">持ち込む</option>
+			<option value="1">持ち込まない</option>
+		</select>
+		
+	<br>
+
+		白金鈴:
+		<select id="YobiSuzuSetting_WhiteGoldSuzu">
+			<option value="0">持ち込む</option>
+			<option value="1">持ち込まない</option>
+		</select>
+		
+	<br>
+
+		白銀鈴:
+		<select id="YobiSuzuSetting_WhiteSilverSuzu">
+			<option value="0">持ち込む</option>
+			<option value="1">持ち込まない</option>
+		</select>
+
+	<br>
+		
+		白銅鈴:
+		<select id="YobiSuzuSetting_WhiteCopperSuzu">
+			<option value="0">持ち込む</option>
+			<option value="1">持ち込まない</option>
+		</select>
+		
+	<br>
+
+		黒鈴:
+		<select id="YobiSuzuSetting_BlackSuzu">
+			<option value="0">持ち込む</option>
+			<option value="1">持ち込まない</option>
+		</select>
+		
+	<br>
+
+		黒金鈴:
+		<select id="YobiSuzuSetting_BlackGoldSuzu">
+			<option value="0">持ち込む</option>
+			<option value="1">持ち込まない</option>
+		</select>
+		
+	<br>
+
+		黒銀鈴:
+		<select id="YobiSuzuSetting_BlackSilverSuzu">
+			<option value="0">持ち込む</option>
+			<option value="1">持ち込まない</option>
+		</select>
+		
+	<br>
+
+		黒銅鈴:
+		<select id="YobiSuzuSetting_BlackCopperSuzu">
+			<option value="0">持ち込む</option>
+			<option value="1">持ち込まない</option>
+		</select>
+		
+		<br>
+		<button type="button" id="pageYobiSuzuSetting_TekiyouButton" onclick="SetHavingYobiSuzuCount()">
+			適用
+		</button>
+		
+		<br>
+		<br>
+
+    </div>
+    
+    <!-- 呼鈴強化タブ -->
+    <div id="pageYobiSuzuKyoka" class="TabPage">
+    呼鈴強化<br>
+    強化する呼び鈴
+    <select id="YobiSuzuKyokaColor">
+		<option value="0">赤</option>
+		<option value="1">青</option>
+		<option value="2">黄</option>
+		<option value="3">緑</option>
+		<option value="4">紫</option>
+		<option value="5">白</option>
+		<option value="6">白金</option>
+		<option value="7">白銀</option>
+		<option value="8">白銅</option>
+		<option value="9">黒</option>
+		<option value="10">黒金</option>
+		<option value="11">黒銀</option>
+		<option value="12">黒銅</option>
+    </select>
+    <br>
+    強化に使用するCoin
+    <select id="YobiSuzuKyokaConsumeCoin">
+			<option value="10">10</option>
+			<option value="20">20</option>
+			<option value="30">30</option>
+			<option value="40">40</option>
+			<option value="50">50</option>
+			<option value="100">100</option>
+			<option value="200">200</option>
+			<option value="300">300</option>
+			<option value="400">400</option>
+			<option value="500">500</option>
+			<option value="1000">1000</option>
+			<option value="2000">2000</option>
+			<option value="3000">3000</option>
+			<option value="4000">4000</option>
+			<option value="5000">5000</option>			
+	</select>
+	
+	<br>
+		<button type="button" id="pageYobiSuzuKyoka_KyokaButton" onclick="YobiSuzuKyoka()">
+			強化
+		</button>
+
+    </div>
+    
+    <!-- 時戻しの砂漠設定タブ -->
+    <div id="pageTokimodoshiSetting" class="TabPage">
+    時戻しの砂漠設定<br>
+    現在選択中の低下ステータス:
+    <span id="CurrentDownStsInTokimodoshiDessert"></span>
+    <br>
+	低下させるステータス
+	<select id="DownStsInTokimodoshiDessert">
+		<option value="0">赤</option>
+		<option value="1">青</option>
+		<option value="2">黄</option>
+		<option value="3">緑</option>
+		<option value="4">紫</option>
+		<option value="5">白</option>
+		<option value="6">白金</option>
+		<option value="7">白銀</option>
+		<option value="8">白銅</option>
+		<option value="9">黒</option>
+		<option value="10">黒金</option>
+		<option value="11">黒銀</option>
+		<option value="12">黒銅</option>
+    </select>
+    <br>
+	<button type="button" id="pageTokimodoshiSetting_TekiyouButton" onclick="ChangeDownStsColorInTokimodoshiDessert()">
+		適用
+	</button>
+	
+    </div>
+    
+    <!-- 再生の森設定タブ -->
+    <div id="pageSaiseiSetting" class="TabPage">
+    再生の森設定<br>
+    現在選択中の取得経験値:
+    <span id="CurrentUpStsInSaiseiForest"></span>
+    <br>
+	取得する経験値
+	<select id="UpStsInSaiseiForest">
+		<option value="0">赤</option>
+		<option value="1">青</option>
+		<option value="2">黄</option>
+		<option value="3">緑</option>
+		<option value="4">紫</option>
+		<option value="5">白</option>
+		<option value="6">白金</option>
+		<option value="7">白銀</option>
+		<option value="8">白銅</option>
+		<option value="9">黒</option>
+		<option value="10">黒金</option>
+		<option value="11">黒銀</option>
+		<option value="12">黒銅</option>
+    </select>
+    <br>
+	<button type="button" id="pageSaiseiSetting_TekiyouButton" onclick="ChangeUpStsColorInSaiseiForest()">
+		適用
+	</button>
+    </div>
+    
+    <!-- ステップ実行タブ -->
+    <div id="pageAdvanceOneStep" class="TabPage">
+    ステップ実行<br>
+	現在のモード:<span id="pageAdvanceOneStep_CurrentMode"></span>
+	<br>
+	モード変更:
+	<select id="CurrentStepMode">
+		<option value="0">何もしない</option>
+		<option value="1">拠点滞在</option>
+		<option value="2">勝負</option>
+    </select>
+    <br>
+	<button type="button" id="pageAdvanceOneStep_ModeTekiyouButton" onclick="ChangeModeInAdvanceOneStepTab()">
+		モード適用
+	</button>
+	<br>
+	現在の拠点タイプ:
+	<span id="pageAdvanceOneStep_KyotenTypeSpan"></span>
+	<br>
+	ステップ実行モード:<span id="pageAdvanceOneStep_StepExecuteFlgSpan"></span>
+	<br>
+	<button type="button" id="pageAdvanceOneStep_StepExecuteButton" onclick="StartStepExecuteInAdvanceOneStepTab()">
+		ステップ実行開始
+	</button>
+	<button type="button" id="pageAdvanceOneStep_StepExecuteButton" onclick="EndStepExecuteInAdvanceOneStepTab()">
+		ステップ実行終了
+	</button>
+	<br>
+	<hr>
+	敵画像:
+	<br>
+	<div id="EnemyTypeImgDiv">
+	</div>
+	<br>
+	<hr>
+	ログ
+	<hr>
+	<span id="pageAdvanceOneStep_LogSpan"></span>
+	<hr>
+	<button type="button" id="pageAdvanceOneStep_ClearLogButton" onclick="ClearLogInAdvanceOneStepTab()">
+		ログクリア
+	</button>
+    </div>
+    
+    <!-- 修練所タブ -->
+    <div id="pageKyokaWithCoins" class="TabPage">
+    修練所<br>
+    修練に消費するコイン: <input type="text" id="CoinsWithKyoka" value="10">
+    <br>
+	<button type="button" id="pageKyokaWithCoins_KyokaButton" onclick="KyokaWithCoins()">
+		コインを使って強化する
+	</button><br>
+    </div>
+    
+    <!-- ゲームデータセーブロードタブ -->
+    <div id="pageSaveAndLoadGameData" class="TabPage">
+    ---ゲームデータセーブ・ロード<br>
+	<button type="button" id="pageSaveAndLoadGameData_SaveButton" onclick="SaveGameData()">
+		ゲームデータセーブ
+	</button>
+	<br>
+	<br>
+	<button type="button" id="pageSaveAndLoadGameData_SaveButton" onclick="LoadGameData()">
+		ゲームデータロード
+	</button>
+    </div>
+    
+    <!-- 敵レベル設定タブ -->
+    <div id="pageEnemyLevelSetting" class="TabPage">
+    敵レベル設定<br>
+    現在選択中の敵レベル:
+    <span id="CurrentEnemyLevelInEnemyLevelSetting"></span>
+    <br>
+	敵レベル
+	<select id="EnemyLevelInEnemyLevelSetting">
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+    </select>
+    <br>
+	<button type="button" id="pageEnemyLevelSetting_TekiyouButton" onclick="ChangeEnemyLevelInEnemyLevelSettingTab()">
+		適用
+	</button>
+	</div>
+	
+    <div id="pageKyusokuPercentageSetting" class="TabPage">
+    休息確率設定<br>
+    現在選択中の休息確率:
+    <span id="CurrentKyusokuPercentageInKyusokuPercentageSetting"></span>
+    <br>
+	休息確率
+	<select id="KyusokuPercentageInKyusokuPercentageSetting">
+		<option value="10">10</option>
+		<option value="20">20</option>
+		<option value="30">30</option>
+		<option value="40">40</option>
+		<option value="50">50</option>
+		<option value="60">60</option>
+		<option value="70">70</option>
+		<option value="80">80</option>
+		<option value="90">90</option>		
+    </select>
+    <br>
+	<button type="button" id="pageKyusokuPercentageSetting_TekiyouButton" onclick="ChangeKyusokuPercentageInKyusokuPercentageSettingTab()">
+		適用
+	</button>
+	</div>
+	
+    <!-- 倒した敵リストタブ -->
+    <div id="pageWinEnemyCount" class="TabPage">
+	<button type="button" id="pageWinEnemyCountTabOutputScnShotButton" onclick="DrawScnShotOfWinEnemyCount()">
+		倒した敵リストのスクリーンショットを出力
+	</button>
+	<br>
+    倒した敵の数<br>
+    <hr>
+    敵レベル:1
+    <br>
+    エネミータイプ:1:<span id="WinEnemyType1CountLevel1Span"></span>個<br>
+    エネミータイプ:2:<span id="WinEnemyType2CountLevel1Span"></span>個<br>
+    エネミータイプ:3:<span id="WinEnemyType3CountLevel1Span"></span>個<br>
+    エネミータイプ:4:<span id="WinEnemyType4CountLevel1Span"></span>個<br>
+    エネミータイプ:5:<span id="WinEnemyType5CountLevel1Span"></span>個<br>
+    エネミータイプ:6:<span id="WinEnemyType6CountLevel1Span"></span>個<br>
+    エネミータイプ:7:<span id="WinEnemyType7CountLevel1Span"></span>個<br>
+    エネミータイプ:8:<span id="WinEnemyType8CountLevel1Span"></span>個<br>
+    エネミータイプ:9:<span id="WinEnemyType9CountLevel1Span"></span>個<br>
+    エネミータイプ:10:<span id="WinEnemyType10CountLevel1Span"></span>個<br>
+    エネミータイプ:11:<span id="WinEnemyType11CountLevel1Span"></span>個<br>
+    エネミータイプ:12:<span id="WinEnemyType12CountLevel1Span"></span>個<br>
+    <hr>
+    敵レベル:2
+    <br>
+    エネミータイプ:1:<span id="WinEnemyType1CountLevel2Span"></span>個<br>
+    エネミータイプ:2:<span id="WinEnemyType2CountLevel2Span"></span>個<br>
+    エネミータイプ:3:<span id="WinEnemyType3CountLevel2Span"></span>個<br>
+    エネミータイプ:4:<span id="WinEnemyType4CountLevel2Span"></span>個<br>
+    エネミータイプ:5:<span id="WinEnemyType5CountLevel2Span"></span>個<br>
+    エネミータイプ:6:<span id="WinEnemyType6CountLevel2Span"></span>個<br>
+    エネミータイプ:7:<span id="WinEnemyType7CountLevel2Span"></span>個<br>
+    エネミータイプ:8:<span id="WinEnemyType8CountLevel2Span"></span>個<br>
+    エネミータイプ:9:<span id="WinEnemyType9CountLevel2Span"></span>個<br>
+    エネミータイプ:10:<span id="WinEnemyType10CountLevel2Span"></span>個<br>
+    エネミータイプ:11:<span id="WinEnemyType11CountLevel2Span"></span>個<br>
+    エネミータイプ:12:<span id="WinEnemyType12CountLevel2Span"></span>個<br>
+    <hr>
+    敵レベル:3
+    <br>
+    エネミータイプ:1:<span id="WinEnemyType1CountLevel3Span"></span>個<br>
+    エネミータイプ:2:<span id="WinEnemyType2CountLevel3Span"></span>個<br>
+    エネミータイプ:3:<span id="WinEnemyType3CountLevel3Span"></span>個<br>
+    エネミータイプ:4:<span id="WinEnemyType4CountLevel3Span"></span>個<br>
+    エネミータイプ:5:<span id="WinEnemyType5CountLevel3Span"></span>個<br>
+    エネミータイプ:6:<span id="WinEnemyType6CountLevel3Span"></span>個<br>
+    エネミータイプ:7:<span id="WinEnemyType7CountLevel3Span"></span>個<br>
+    エネミータイプ:8:<span id="WinEnemyType8CountLevel3Span"></span>個<br>
+    エネミータイプ:9:<span id="WinEnemyType9CountLevel3Span"></span>個<br>
+    エネミータイプ:10:<span id="WinEnemyType10CountLevel3Span"></span>個<br>
+    エネミータイプ:11:<span id="WinEnemyType11CountLevel3Span"></span>個<br>
+    エネミータイプ:12:<span id="WinEnemyType12CountLevel3Span"></span>個<br>
+    <hr>
+    敵レベル:4
+    <br>
+    エネミータイプ:1:<span id="WinEnemyType1CountLevel4Span"></span>個<br>
+    エネミータイプ:2:<span id="WinEnemyType2CountLevel4Span"></span>個<br>
+    エネミータイプ:3:<span id="WinEnemyType3CountLevel4Span"></span>個<br>
+    エネミータイプ:4:<span id="WinEnemyType4CountLevel4Span"></span>個<br>
+    エネミータイプ:5:<span id="WinEnemyType5CountLevel4Span"></span>個<br>
+    エネミータイプ:6:<span id="WinEnemyType6CountLevel4Span"></span>個<br>
+    エネミータイプ:7:<span id="WinEnemyType7CountLevel4Span"></span>個<br>
+    エネミータイプ:8:<span id="WinEnemyType8CountLevel4Span"></span>個<br>
+    エネミータイプ:9:<span id="WinEnemyType9CountLevel4Span"></span>個<br>
+    エネミータイプ:10:<span id="WinEnemyType10CountLevel4Span"></span>個<br>
+    エネミータイプ:11:<span id="WinEnemyType11CountLevel4Span"></span>個<br>
+    エネミータイプ:12:<span id="WinEnemyType12CountLevel4Span"></span>個<br>
+    </div>
+    
+    <!-- 今日の進捗タブ-->
+    <div id="pageTodaySuccess" class="TabPage">
+    今日の進捗<br>
+    <br>
+	総拠点滞在時間:<span id="TotalKyotenTaizaiMiniteSpan"></span>分<br>
+	総取得経験値:<span id="EarnedTotalExpSpan"></span><br>
+	総取得コイン:<span id="EarnedTotalCoinSpan"></span><br>
+	総取得時砂:<span id="EarnedTotalTimeSandSpan"></span><br>
+	</div>
+    
+  </div>
+</div>
+
+<hr>
+<hr>
+スクリーンショット画像<br>
+<div id="ScnShotImgDiv">
+<img src="" id="result1" />
+</div>
+
+<div id="InitScriptTag"></div>
+<script type="text/javascript" src="KyotenTaizaiJS.js" async defer>
+</script>
+
+</body>
+</html>

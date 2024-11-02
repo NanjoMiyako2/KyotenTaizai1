@@ -1,0 +1,13 @@
+Red
+Blue
+Yellow
+Green
+Purple
+White
+WhiteGold
+WhiteSilver
+WhiteCopper
+Black
+BlackGold
+BlackSilver
+BlackCopper
